@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Welcome to the Dashboard, {{ username }}</h2>
+
+  <nav>
+    <ul>
+      <li><a routerLink="/chat">Chat</a></li>
+      <!-- Add more navigation links as needed -->
+      <!-- For example, you can conditionally display admin links based on userRole -->
+      <li *ngIf="userRole === 'Super Admin'">
+        <a routerLink="/user-management">User Management</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="user-profile">
+    <h3>Your Profile</h3>
+    <p><strong>Username:</strong> {{ username }}</p>
+    <p><strong>Role:</strong> {{ userRole }}</p>
+  </div>
+
+  <button (click)="logout()">Logout</button>
+</div>

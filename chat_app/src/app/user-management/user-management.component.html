@@ -1,1 +1,118 @@
-<p>user-management works!</p>
+<div class="container">
+  <h2>User Management</h2>
+
+  <!-- Create User Form and User List -->
+  <div class="row">
+    <!-- Create User Column -->
+    <div class="col-md-4">
+      <h3>Create User</h3>
+      <form>
+        <div class="form-group">
+          <input
+            [(ngModel)]="newUsername"
+            name="newUsername"
+            class="form-control"
+            placeholder="Username"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            [(ngModel)]="newEmail"
+            name="newEmail"
+            class="form-control"
+            placeholder="Email"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            [(ngModel)]="newPassword"
+            name="newPassword"
+            class="form-control"
+            placeholder="Password"
+          />
+        </div>
+        <div class="form-group">
+          <select [(ngModel)]="newRole" class="form-control" name="newRole">
+            <option value="User">User</option>
+            <option value="GroupAdmin">GroupAdmin</option>
+            <option value="SuperAdmin">SuperAdmin</option>
+          </select>
+        </div>
+        <button
+          class="btn btn-primary"
+          (click)="createUser(newUsername, newEmail, newPassword, newRole)"
+        >
+          Create
+        </button>
+      </form>
+    </div>
+
+    <!-- User List Column -->
+    <div class="col-md-8">
+      <h3>User List</h3>
+      <ul class="list-group">
+        <li
+          *ngFor="let user of userList"
+          class="list-group-item"
+          (click)="editUser(user)"
+          style="cursor: pointer"
+        >
+          {{ user.username }} ({{ user.role }})
+          <button
+            class="btn btn-danger btn-sm float-right"
+            (click)="deleteUser(user.username)"
+          >
+            Delete
+          </button>
+        </li>
+      </ul>
+
+      <!-- Edit User -->
+      <div class="row mt-3" *ngIf="selectedUser">
+        <div class="col-md-6">
+          <h3>Edit User</h3>
+          <form>
+            <div class="form-group">
+              <input
+                [(ngModel)]="editedUser.username"
+                name="editedUsername"
+                class="form-control"
+                placeholder="New Username"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                [(ngModel)]="editedUser.email"
+                name="editedEmail"
+                class="form-control"
+                placeholder="New Email"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                [(ngModel)]="editedUser.password"
+                name="editedPassword"
+                class="form-control"
+                placeholder="New Password"
+              />
+            </div>
+            <div class="form-group">
+              <select
+                [(ngModel)]="editedUser.role"
+                class="form-control"
+                name="editedRole"
+              >
+                <option value="User">User</option>
+                <option value="GroupAdmin">GroupAdmin</option>
+                <option value="SuperAdmin">SuperAdmin</option>
+              </select>
+            </div>
+            <button class="btn btn-success" (click)="saveUserChanges()">
+              Save Changes
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

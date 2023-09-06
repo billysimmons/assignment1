@@ -8,6 +8,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChatComponent } from './chat/chat.component';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { GroupManagementComponent } from './group-management/group-management.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
     DashboardComponent,
     ChatComponent,
     UserManagementComponent,
+    GroupManagementComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],

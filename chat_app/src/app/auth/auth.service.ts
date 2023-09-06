@@ -165,6 +165,18 @@ export class AuthService {
     return storedUsers ? JSON.parse(storedUsers) : [];
   }
 
+  // Add a method to get the username of the current user
+  getUsername(): string | null {
+    const userData = this.getUserData();
+    return userData ? userData.username : null;
+  }
+
+  // Add a method to get all users (you may implement this based on your needs)
+  getAllUsers(): string[] {
+    const users = this.getUsers();
+    return users.map((user) => user.username);
+  }
+
   logout() {
     // Clear user data from local storage
     localStorage.removeItem(this.currentUserStorageKey);

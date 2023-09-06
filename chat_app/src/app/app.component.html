@@ -1,5 +1,5 @@
 <body class="d-flex flex-column min-vh-100">
-  <header>
+  <header *ngIf="isLoggedIn()">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" routerLink="/">Chat App</a>
       <button
@@ -26,7 +26,6 @@
               >User Management</a
             >
           </li>
-          <!-- Add more navigation links as needed -->
         </ul>
       </div>
     </nav>

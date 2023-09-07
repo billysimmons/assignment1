@@ -1,16 +1,44 @@
 [
   {
-    "id": "1",
+    "id": "56734563456",
     "name": "Group A",
-    "members": ["SuperAdmin-User", "GroupAdmin-User", "NormalUser-User"],
-    "channels": ["Channel 1", "Channel 2"],
+    "members": [
+      "SuperAdmin-User",
+      "GroupAdmin-User",
+      "NormalUser-User"
+    ],
+    "channels": [
+      "Channel 1",
+      "Channel 2"
+    ],
     "admin": "SuperAdmin-User"
   },
   {
-    "id": "2",
+    "id": "23512351",
     "name": "Group B",
-    "members": ["SuperAdmin-User", "GroupAdmin-User"],
-    "channels": ["Channel 3", "Channel 4"],
+    "members": [
+      "SuperAdmin-User",
+      "GroupAdmin-User"
+    ],
+    "channels": [
+      "Channel 3",
+      "Channel 4"
+    ],
     "admin": "GroupAdmin-User"
+  },
+  {
+    "id": "54183010-bcbe-4a5e-8c39-be70ba8c8f2f",
+    "name": "asdfasdf",
+    "members": [
+      "member1",
+      "member2"
+    ],
+    "channels": [
+      "channel1"
+    ],
+    "admins": [
+      "admin1",
+      "admin2"
+    ]
   }
 ]

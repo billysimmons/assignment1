@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChatComponent } from './chat/chat.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { GroupManagementComponent } from './group-management/group-management.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,11 @@ const routes: Routes = [
   {
     path: 'user-management',
     component: UserManagementComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'group-management',
+    component: GroupManagementComponent,
     canActivate: [AuthGuard],
   },
 

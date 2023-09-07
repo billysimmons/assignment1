@@ -13,6 +13,36 @@ app.use(bodyParser.json());
 let groupsData = JSON.parse(fs.readFileSync("./data/groups.json"));
 let usersData = JSON.parse(fs.readFileSync("./data/users.json"));
 
+//
+//
+/////////// GROUP //////////////
+// Endpoint to create group
+// Endpoint to create a new user
+app.post("/create-group", (req, res) => {
+  const newGroup = req.body;
+
+  console.log(newGroup);
+  // Check if the group name is already taken
+  const isNameTaken = groupsData.some((group) => group.name === newGroup.name);
+
+  if (isNameTaken) {
+    res
+      .status(400)
+      .json({ success: false, message: "Group name is already taken" });
+  } else {
+    // Add the new group to the data
+    groupsData.push(newGroup);
+
+    // Save the updated data to the file
+    fs.writeFileSync("./data/groups.json", JSON.stringify(groupsData, null, 2));
+
+    res.json({ success: true, group: newGroup });
+  }
+});
+
+//
+///
+//////// USER ////////////
 app.get("/users", (req, res) => {
   res.json(usersData);
 });
@@ -31,6 +61,7 @@ app.post("/login", (req, res) => {
 app.post("/create-user", (req, res) => {
   const newUser = req.body;
 
+  console.log(newUser);
   // Check if the username is already taken
   const isUsernameTaken = usersData.some(
     (user) => user.username === newUser.username

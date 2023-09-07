@@ -15,6 +15,10 @@ export class AppComponent {
     return this.authService.isAuthenticated();
   }
 
+  isGroupAdmin() {
+    return this.authService.isGroupAdmin();
+  }
+
   isSuperAdmin() {
     return this.authService.isSuperAdmin();
   }

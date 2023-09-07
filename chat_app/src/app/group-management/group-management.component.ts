@@ -13,7 +13,35 @@ export class GroupManagementComponent {
     private groupService: GroupService
   ) {}
 
+  newName: string = '';
+  newMembers: string[] = ['member1', 'member2'];
+  newChannels: string[] = ['channel1'];
+  newAdmins: string[] = ['admin1', 'admin2'];
+
+  // ngoninit Method to get admins, channels and all members
+
   // Create new group
+  createNewGroup() {
+    console.log('triggered from html');
+
+    this.groupService
+      .createGroup(
+        this.newName,
+        this.newMembers,
+        this.newChannels,
+        this.newAdmins
+      )
+      .subscribe(
+        (response) => {
+          console.log('Response:', response);
+          // Do something with the response
+        },
+        (error) => {
+          console.error('Error:', error);
+          // Handle error
+        }
+      );
+  }
 
   // Add existing users to group
 

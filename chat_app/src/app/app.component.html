@@ -26,6 +26,11 @@
               >User Management</a
             >
           </li>
+          <li *ngIf="isGroupAdmin()" class="nav-item">
+            <a class="nav-link" routerLink="/group-management"
+              >Group Management</a
+            >
+          </li>
         </ul>
       </div>
     </nav>

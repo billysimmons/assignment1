@@ -10,5 +10,17 @@
     "email": "groupadmin@example.com",
     "password": "password",
     "role": "GroupAdmin"
+  },
+  {
+    "username": "User-User",
+    "email": "user@example.com",
+    "password": "password",
+    "role": "User"
+  },
+  {
+    "username": "asdf",
+    "email": "asdf",
+    "password": "sadf",
+    "role": "GroupAdmin"
   }
 ]

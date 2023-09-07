@@ -1,6 +1,52 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
+
+interface Group {
+  id: string;
+  name: string;
+  members: string[];
+  channels: string[];
+  admins: string[]; // username of groupAdmin
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GroupService {
+  private readonly apiUrl = 'http://localhost:3000';
+
+  constructor(private http: HttpClient) {}
+
+  // Create a new group
+  createGroup(
+    name: string,
+    members: string[],
+    channels: string[],
+    admins: string[]
+  ): Observable<any> {
+    const id = uuidv4();
+    const newGroup: Group = { id, name, members, channels, admins };
+
+    let result = this.http.post<any>(`${this.apiUrl}/create-group`, newGroup);
+
+    console.log(result);
+    return result;
+  }
+
+  getUsers(): Observable<any[]> {
+    let result = this.http.get<any[]>(`${this.apiUrl}/get-users`);
+
+    console.log(result);
+    return result;
+  }
+}
+
+/*
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 interface Group {
   id: string;
@@ -89,3 +135,5 @@ export class GroupService {
     return this.http.get<Group | null>(`${this.apiUrl}/${groupId}`);
   }
 }
+
+*/

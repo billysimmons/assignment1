@@ -1,1 +1,17 @@
-<p>group-management works!</p>
+<div class="col-md-4">
+  <h3>Create Group</h3>
+  <form (ngSubmit)="createNewGroup()">
+    <div class="form-group">
+      <label for="newUsername">Username</label>
+      <input
+        [(ngModel)]="newName"
+        name="newUsername"
+        id="newUsername"
+        class="form-control"
+        placeholder="Username"
+        required
+      />
+    </div>
+    <button class="btn btn-primary" type="submit">Create</button>
+  </form>
+</div>

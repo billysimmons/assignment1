@@ -140,4 +140,18 @@ export class AuthService {
 
     return false;
   }
+
+  isGroupAdmin(): boolean {
+    const userJSON = localStorage.getItem(this.currentUserStorageKey);
+
+    if (userJSON) {
+      const user = JSON.parse(userJSON);
+
+      if (user && (user.role === 'SuperAdmin' || user.role == 'GroupAdmin')) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

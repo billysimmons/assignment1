@@ -98,7 +98,6 @@ app.post("/login", (req, res) => {
 app.post("/create-user", (req, res) => {
   const newUser = req.body;
 
-  console.log(newUser);
   // Check if the username is already taken
   const isUsernameTaken = usersData.some(
     (user) => user.username === newUser.username

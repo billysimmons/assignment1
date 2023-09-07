@@ -65,8 +65,6 @@ export class GroupManagementComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          console.log('Response:', response);
-
           // Refresh the list of groups after adding a new one
           this.getGroupsList();
 
@@ -104,7 +102,6 @@ export class GroupManagementComponent implements OnInit {
       .addUserToGroup(this.selectedGroupId, this.selectedUsers)
       .subscribe(
         (response) => {
-          console.log('User added successfully:', response);
           // Optionally, reset form fields after successful addition
           this.selectedUsers = [];
           this.selectedGroupId = '';

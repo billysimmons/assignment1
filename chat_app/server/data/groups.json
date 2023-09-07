@@ -2,79 +2,8 @@
   {
     "id": "56734563456",
     "name": "Group A",
-    "members": [
-      "User-User",
-      "1",
-      "2"
-    ],
-    "channels": [
-      "Channel 1",
-      "Channel 2"
-    ],
+    "members": ["User-User", "1", "2"],
+    "channels": ["Channel 1", "Channel 2"],
     "admin": "SuperAdmin-User"
-  },
-  {
-    "id": "fa70a703-1ed9-4586-8b47-7a82b56e94f9",
-    "name": "Test",
-    "members": [
-      "User-User",
-      "1",
-      "2"
-    ],
-    "channels": [
-      "channel1"
-    ],
-    "admins": [
-      "admin1",
-      "admin2"
-    ]
-  },
-  {
-    "id": "2120237d-e63b-41a8-8c7d-4fbf7f380f6b",
-    "name": "TestTest",
-    "members": [
-      "2"
-    ],
-    "channels": [
-      "channel1"
-    ],
-    "admins": []
-  },
-  {
-    "id": "49094a3f-bade-405d-9ceb-c7c611335d9a",
-    "name": "as",
-    "members": [],
-    "channels": [
-      "channel1"
-    ],
-    "admins": []
-  },
-  {
-    "id": "b5d3a4b0-d411-479c-9aff-bd6a63f6ac9e",
-    "name": "testbilly",
-    "members": [],
-    "channels": [
-      "channel1"
-    ],
-    "admins": [
-      "admin1",
-      "admin2"
-    ]
-  },
-  {
-    "id": "c86dd949-efce-4f24-9bf0-96be6f3036f9",
-    "name": "123412341234",
-    "members": [
-      "User-User",
-      "1",
-      "2"
-    ],
-    "channels": [
-      "channel1"
-    ],
-    "admins": [
-      "admin1",
-      "admin2"
-    ]
   }
 ]

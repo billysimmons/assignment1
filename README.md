@@ -2,6 +2,13 @@
 
 ## Description: Chat app for assignment 1 3813ICT 2023
 
+## Notes for use
+
+- The application uses an express.js server as a backend. The surver communicates group and user information to the client.
+- To add and update groups ensure you are logged in with username: GroupAdmin-User password: password or SuperAdmin-User password:password (can also be found in users.json) as regular users (username: User-User, password: password) does not have access to this feature of the app.
+- To create and remove users ensure you are logged in with SuperAdmin-User to see the user management component. GroupAdmin and User permissions do not have access to this feature of the app.
+- When adding users to a group. Select the users you wish to add and then press add users button. The users will be added to the group. To see how they have been added check the groups.json file.
+
 # Chat Application Interaction Overview
 
 This section provides an overview of the interaction between the client and server in the Chat Application. It outlines how data on the server side is changed and how the display of each Angular component page is updated.

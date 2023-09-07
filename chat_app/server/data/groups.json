@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1",
+    "name": "Group A",
+    "members": ["SuperAdmin-User", "GroupAdmin-User", "NormalUser-User"],
+    "channels": ["Channel 1", "Channel 2"],
+    "admin": "SuperAdmin-User"
+  },
+  {
+    "id": "2",
+    "name": "Group B",
+    "members": ["SuperAdmin-User", "GroupAdmin-User"],
+    "channels": ["Channel 3", "Channel 4"],
+    "admin": "GroupAdmin-User"
+  }
+]

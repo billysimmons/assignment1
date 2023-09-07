@@ -1,0 +1,14 @@
+[
+  {
+    "username": "SuperAdmin-User2",
+    "email": "bla",
+    "password": "password",
+    "role": "SuperAdmin"
+  },
+  {
+    "username": "GroupAdmin-User",
+    "email": "groupadmin@example.com",
+    "password": "password",
+    "role": "GroupAdmin"
+  }
+]

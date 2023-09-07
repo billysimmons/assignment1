@@ -15,11 +15,12 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // Fetch user data when the dashboard component initializes
-    const userData = this.authService.getUserData();
-    if (userData) {
-      this.userRole = userData.role;
-      this.username = userData.username;
-    }
+    this.authService.getUserData().subscribe((userData) => {
+      if (userData) {
+        this.userRole = userData.role;
+        this.username = userData.username;
+      }
+    });
   }
 
   logout() {

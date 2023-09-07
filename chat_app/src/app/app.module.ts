@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChatComponent } from './chat/chat.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { GroupManagementComponent } from './group-management/group-management.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { GroupManagementComponent } from './group-management/group-management.co
     UserManagementComponent,
     GroupManagementComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })

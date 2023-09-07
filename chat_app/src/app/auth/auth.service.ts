@@ -1,142 +1,77 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+interface User {
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly userListStorageKey = 'userList';
   private readonly currentUserStorageKey = 'currentUser';
+  private readonly apiUrl = 'http://localhost:3000';
 
-  // Initialize user list
-  initialiseUserList() {
-    const userListExists = !!localStorage.getItem(this.userListStorageKey);
+  constructor(private http: HttpClient) {}
 
-    if (!userListExists) {
-      const hardcodedUsers = [
-        {
-          username: 'SuperAdmin-User',
-          email: 'superadmin@example.com',
-          password: 'password',
-          role: 'SuperAdmin',
-        },
-        {
-          username: 'GroupAdmin-User',
-          email: 'groupadmin@example.com',
-          password: 'password',
-          role: 'GroupAdmin',
-        },
-        {
-          username: 'NormalUser-User',
-          email: 'normaluser@example.com',
-          password: 'password',
-          role: 'User',
-        },
-      ];
+  login(username: string, password: string): Observable<User | null> {
+    const user = { username, password };
 
-      localStorage.setItem(
-        this.userListStorageKey,
-        JSON.stringify(hardcodedUsers)
-      );
-    }
+    return this.http.post<User | null>(`${this.apiUrl}/login`, user).pipe(
+      map((user) => {
+        if (user !== null) {
+          localStorage.setItem(
+            this.currentUserStorageKey,
+            JSON.stringify(user)
+          );
+        }
+        return user;
+      })
+    );
   }
 
-  // Authenticate the user
-  login(username: string, password: string): boolean {
-    const users = this.getUsers();
-    const user = users.find(
-      (u) => u.username === username && u.password === password
-    );
+  createUser(
+    username: string,
+    email: string,
+    password: string,
+    role: string
+  ): Observable<any> {
+    const newUser = { username, email, password, role };
 
-    localStorage.setItem(this.currentUserStorageKey, JSON.stringify(user));
-
-    return !!user; // return if user exists
-  }
-
-  // Create a new user object
-  createUser(username: string, email: string, password: string, role: string) {
-    // Retrieve the existing users from local storage
-    const existingUsers = this.getUsers();
-
-    // Check if a user with the same username or email already exists
-    const userExists = existingUsers.some(
-      (user) => user.username === username || user.email === email
-    );
-
-    if (userExists) {
-      // User with the same username or email already exists, don't create a new user
-      return null;
-    }
-
-    // Create a new user object
-    const newUser = {
-      username,
-      email,
-      password,
-      role,
-    };
-
-    // Add the new user to the existing array
-    existingUsers.push(newUser);
-
-    // Store the updated users array in local storage
-    localStorage.setItem(
-      this.userListStorageKey,
-      JSON.stringify(existingUsers)
-    );
-
-    return newUser;
+    return this.http.post<any>(`${this.apiUrl}/create-user`, newUser);
   }
 
   updateUser(
     username: string,
     updatedUser: { password: string; role: string }
-  ): boolean {
-    // Retrieve the list of users from local storage
-    const userList = this.getUsers();
+  ): Observable<any> {
+    const updatedUserData = { username, ...updatedUser };
 
-    // Find the user to update based on the username
-    const userIndex = userList.findIndex((user) => user.username === username);
-
-    // If the user is found, update their information
-    if (userIndex !== -1) {
-      userList[userIndex].password = updatedUser.password;
-      userList[userIndex].role = updatedUser.role;
-
-      // Save the updated user list to local storage
-      localStorage.setItem(this.userListStorageKey, JSON.stringify(userList));
-
-      return true;
-    }
-
-    return false; // User not found or update failed
+    return this.http.put<any>(
+      `${this.apiUrl}/update-user/${username}`,
+      updatedUserData
+    );
   }
 
-  deleteUser(username: string): boolean {
-    // Retrieve the list of users from local storage
-    const userList = this.getUsers();
-
-    // Find the user to delete based on the username
-    const userIndex = userList.findIndex((user) => user.username === username);
-
-    // If the user is found, remove them from the list
-    if (userIndex !== -1) {
-      userList.splice(userIndex, 1);
-
-      // Save the updated user list to local storage
-      localStorage.setItem(this.userListStorageKey, JSON.stringify(userList));
-
-      return true;
-    }
-
-    return false; // User not found or delete failed
+  deleteUser(username: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/delete-user/${username}`);
   }
 
-  getUserData(): {
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/get-users`);
+  }
+
+  getUserData(): Observable<{
     username: string;
     email: string;
     password: string;
     role: string;
-  } | null {
+  } | null> {
     let loggedInUsername = '';
     const loggedInUserJSON = localStorage.getItem(this.currentUserStorageKey);
 
@@ -145,56 +80,54 @@ export class AuthService {
       loggedInUsername = loggedInUser.username;
     }
 
-    // Retrieve the array of users from local storage
-    const users = this.getUsers();
+    return this.getUsers().pipe(
+      map((users) => {
+        const userData = users.find(
+          (user) => user.username === loggedInUsername
+        );
 
-    // Find the user in the array based on their username
-    const userData = users.find((user) => user.username === loggedInUsername);
+        if (userData) {
+          // Check and handle empty email and password
+          if (!userData.email) {
+            userData.email = 'N/A';
+          }
 
-    return userData || null;
+          if (!userData.password) {
+            userData.password = 'N/A';
+          }
+        }
+
+        return userData || null;
+      })
+    );
   }
 
-  // Retrieve the array of users from local storage
-  getUsers(): Array<{
-    username: string;
-    email: string;
-    password: string;
-    role: string;
-  }> {
-    const storedUsers = localStorage.getItem(this.userListStorageKey);
-    return storedUsers ? JSON.parse(storedUsers) : [];
+  getUserInfo(username: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/get-user/${username}`);
   }
 
-  // Add a method to get the username of the current user
-  getUsername(): string | null {
-    const userData = this.getUserData();
-    return userData ? userData.username : null;
+  getUsername(): Observable<string | null> {
+    return this.getUserData().pipe(
+      map((userData) => (userData ? userData.username : null))
+    );
   }
 
-  // Add a method to get all users (you may implement this based on your needs)
-  getAllUsers(): string[] {
-    const users = this.getUsers();
-    return users.map((user) => user.username);
+  getAllUsers(): Observable<string[]> {
+    return this.getUsers().pipe(
+      map((users) => users.map((user) => user.username))
+    );
   }
 
   logout() {
-    // Clear user data from local storage
     localStorage.removeItem(this.currentUserStorageKey);
   }
 
   isAuthenticated(): boolean {
-    // Check if there is a user data object in local storage
     const user = localStorage.getItem(this.currentUserStorageKey);
-
-    if (user) {
-      return true;
-    }
-
-    return false;
+    return !!user;
   }
 
   isSuperAdmin(): boolean {
-    // Check if the user data object has a role of 'SuperAdmin'
     const userJSON = localStorage.getItem(this.currentUserStorageKey);
 
     if (userJSON) {
@@ -205,6 +138,6 @@ export class AuthService {
       }
     }
 
-    return false; // Return false if user data is not found or if the role is not 'SuperAdmin'
+    return false;
   }
 }

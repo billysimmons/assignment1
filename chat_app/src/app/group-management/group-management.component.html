@@ -1,17 +1,55 @@
-<div class="col-md-4">
-  <h3>Create Group</h3>
-  <form (ngSubmit)="createNewGroup()">
+<div class="row">
+  <div class="col-md-4">
+    <h3>Create Group</h3>
+    <form (ngSubmit)="createNewGroup()">
+      <div class="form-group">
+        <label for="newGroupName">Group Name</label>
+        <input
+          [(ngModel)]="newName"
+          name="newGroupName"
+          id="newGroupName"
+          class="form-control"
+          placeholder="Group Name"
+          required
+        />
+      </div>
+      <button class="btn btn-primary" type="submit">Create</button>
+    </form>
+  </div>
+
+  <div class="col-md-4">
+    <h3>Add Members to Group</h3>
     <div class="form-group">
-      <label for="newUsername">Username</label>
-      <input
-        [(ngModel)]="newName"
-        name="newUsername"
-        id="newUsername"
+      <label for="groupSelect">Select Group</label>
+      <select
+        [(ngModel)]="selectedGroupId"
         class="form-control"
-        placeholder="Username"
-        required
-      />
+        id="groupSelect"
+      >
+        <option value="" disabled>Select Group</option>
+        <option *ngFor="let group of groupsList" [value]="group.id">
+          {{ group.name }}
+        </option>
+      </select>
     </div>
-    <button class="btn btn-primary" type="submit">Create</button>
-  </form>
+
+    <div class="form-group">
+      <label for="userSelect">Select User(s)</label>
+      <select
+        [(ngModel)]="newMembers"
+        multiple
+        class="form-control"
+        id="userSelect"
+        (change)="onUserSelectChange($event)"
+      >
+        <option *ngFor="let user of usersList" [value]="user.username">
+          {{ user.username }}
+        </option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary" (click)="addUserToGroup()" type="button">
+      Add Users
+    </button>
+  </div>
 </div>

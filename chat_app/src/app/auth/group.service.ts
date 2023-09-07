@@ -19,6 +19,10 @@ export class GroupService {
 
   constructor(private http: HttpClient) {}
 
+  getGroups() {
+    return this.http.get<any>(`${this.apiUrl}/get-groups`);
+  }
+
   // Create a new group
   createGroup(
     name: string,
@@ -29,17 +33,12 @@ export class GroupService {
     const id = uuidv4();
     const newGroup: Group = { id, name, members, channels, admins };
 
-    let result = this.http.post<any>(`${this.apiUrl}/create-group`, newGroup);
-
-    console.log(result);
-    return result;
+    return this.http.post<any>(`${this.apiUrl}/create-group`, newGroup);
   }
 
-  getUsers(): Observable<any[]> {
-    let result = this.http.get<any[]>(`${this.apiUrl}/get-users`);
-
-    console.log(result);
-    return result;
+  addUserToGroup(groupId: string, newMembers: string[]): Observable<any> {
+    const url = `${this.apiUrl}/add-members/${groupId}`;
+    return this.http.post(url, { members: newMembers });
   }
 }
 

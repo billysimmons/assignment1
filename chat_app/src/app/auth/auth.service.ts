@@ -112,12 +112,6 @@ export class AuthService {
     );
   }
 
-  getAllUsers(): Observable<string[]> {
-    return this.getUsers().pipe(
-      map((users) => users.map((user) => user.username))
-    );
-  }
-
   logout() {
     localStorage.removeItem(this.currentUserStorageKey);
   }

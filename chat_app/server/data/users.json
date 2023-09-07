@@ -1,6 +1,6 @@
 [
   {
-    "username": "SuperAdmin-User2",
+    "username": "SuperAdmin-User",
     "email": "bla",
     "password": "password",
     "role": "SuperAdmin"
@@ -16,11 +16,5 @@
     "email": "user@example.com",
     "password": "password",
     "role": "User"
-  },
-  {
-    "username": "asdf",
-    "email": "asdf",
-    "password": "sadf",
-    "role": "GroupAdmin"
   }
 ]

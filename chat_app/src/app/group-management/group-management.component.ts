@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GroupService } from '../auth/group.service';
 import { AuthService } from '../auth/auth.service';
 
@@ -7,23 +7,55 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './group-management.component.html',
   styleUrls: ['./group-management.component.css'],
 })
-export class GroupManagementComponent {
+export class GroupManagementComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private groupService: GroupService
   ) {}
 
+  groupsList: any[] = [];
+  usersList: any[] = [];
+  adminsList: object[] = [];
   newName: string = '';
-  newMembers: string[] = ['member1', 'member2'];
+  newMembers: string[] = [];
   newChannels: string[] = ['channel1'];
   newAdmins: string[] = ['admin1', 'admin2'];
+  selectedGroupId: string = ''; // Track the selected group ID
 
-  // ngoninit Method to get admins, channels and all members
+  selectedUsers: any[] = [];
 
-  // Create new group
+  ngOnInit() {
+    this.getUserList();
+    this.getGroupsList();
+  }
+
+  getGroupsList() {
+    this.groupService.getGroups().subscribe(
+      (groups) => {
+        this.groupsList = groups;
+      },
+      (error) => {
+        console.error('Error fetching groups:', error);
+      }
+    );
+  }
+
+  getUserList() {
+    this.authService.getUsers().subscribe(
+      (users) => {
+        this.adminsList = users.filter(
+          (user) => user.role === 'GroupAdmin' || user.role === 'SuperAdmin'
+        );
+
+        this.usersList = users.filter((user) => user.role === 'User');
+      },
+      (error) => {
+        console.error('Error fetching users:', error);
+      }
+    );
+  }
+
   createNewGroup() {
-    console.log('triggered from html');
-
     this.groupService
       .createGroup(
         this.newName,
@@ -34,22 +66,52 @@ export class GroupManagementComponent {
       .subscribe(
         (response) => {
           console.log('Response:', response);
-          // Do something with the response
+
+          // Refresh the list of groups after adding a new one
+          this.getGroupsList();
+
+          // Optionally, reset form fields after successful creation
+          this.newName = '';
+          this.newMembers = [];
+          this.newChannels = ['channel1'];
+          this.newAdmins = [];
         },
         (error) => {
           console.error('Error:', error);
-          // Handle error
         }
       );
   }
 
-  // Add existing users to group
+  onUserSelectChange(event: Event) {
+    const selectedUser = (event.target as HTMLSelectElement).value.split(
+      "'"
+    )[1];
 
-  // Create channel
+    if (selectedUser && !this.selectedUsers.includes(selectedUser)) {
+      this.selectedUsers.push(selectedUser);
+    }
 
-  // Add channel to gorup
+    console.log(this.selectedUsers);
+  }
 
-  // Remove group
+  addUserToGroup() {
+    if (!this.selectedGroupId || this.selectedUsers.length === 0) {
+      console.error('Please select a group and user(s) first.');
+      return;
+    }
 
-  // Remove user from group
+    this.groupService
+      .addUserToGroup(this.selectedGroupId, this.selectedUsers)
+      .subscribe(
+        (response) => {
+          console.log('User added successfully:', response);
+          // Optionally, reset form fields after successful addition
+          this.selectedUsers = [];
+          this.selectedGroupId = '';
+        },
+        (error) => {
+          console.error('Error adding user to group:', error);
+        }
+      );
+  }
 }

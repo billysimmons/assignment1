@@ -17,11 +17,14 @@ let usersData = JSON.parse(fs.readFileSync("./data/users.json"));
 //
 /////////// GROUP //////////////
 // Endpoint to create group
-// Endpoint to create a new user
+
+app.get("/get-groups", (req, res) => {
+  res.json(groupsData);
+});
+
 app.post("/create-group", (req, res) => {
   const newGroup = req.body;
 
-  console.log(newGroup);
   // Check if the group name is already taken
   const isNameTaken = groupsData.some((group) => group.name === newGroup.name);
 
@@ -40,9 +43,43 @@ app.post("/create-group", (req, res) => {
   }
 });
 
+// Endpoint to add member to group
+app.post("/add-members/:groupId", (req, res) => {
+  const groupId = req.params.groupId;
+  const newMembers = req.body.members;
+
+  // Find the group by ID
+  const group = groupsData.find((group) => group.id === groupId);
+
+  if (!group) {
+    res.status(404).json({ success: false, message: "Group not found" });
+    return;
+  }
+
+  // Filter out members that are already in the group
+  const uniqueNewMembers = newMembers.filter(
+    (member) => !group.members.includes(member)
+  );
+
+  if (uniqueNewMembers.length === 0) {
+    res.json({ success: true, message: "No new members to add" });
+    return;
+  }
+
+  // Add new members to the group
+  group.members.push(...uniqueNewMembers);
+
+  // Save the updated data to the file (assuming groupsData is an array of groups)
+  fs.writeFileSync("./data/groups.json", JSON.stringify(groupsData, null, 2));
+
+  res.json({ success: true, group });
+});
+
 //
 ///
 //////// USER ////////////
+// Endpoint to create a new user
+
 app.get("/users", (req, res) => {
   res.json(usersData);
 });
